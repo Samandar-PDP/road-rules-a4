@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:road_rules/page/add_page.dart';
 import 'package:road_rules/page/home_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -18,7 +19,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    if (size.height > 500) {
+    if (size.width > 500) {
       return Scaffold(
         body: Row(
           children: [
@@ -27,7 +28,7 @@ class _MainPageState extends State<MainPage> {
                 backgroundColor: Colors.indigo,
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(50))),
-                onPressed: () {},
+                onPressed: _navigate,
                 child: const Icon(
                   CupertinoIcons.add,
                   color: Colors.white,
@@ -60,7 +61,7 @@ class _MainPageState extends State<MainPage> {
           backgroundColor: Colors.indigo,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(50))),
-          onPressed: () {},
+          onPressed: _navigate,
           child: const Icon(
             CupertinoIcons.add,
             color: Colors.white,
@@ -86,5 +87,10 @@ class _MainPageState extends State<MainPage> {
         ),
       );
     }
+  }
+  _navigate() {
+    Navigator.of(context).push(
+      CupertinoPageRoute(builder: (context) => const AddPage())
+    );
   }
 }

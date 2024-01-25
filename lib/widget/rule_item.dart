@@ -7,7 +7,7 @@ class RuleItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      surfaceTintColor: Colors.white,
+      color: Colors.blueGrey.shade600,
       child: InkWell(
         onTap: onClick,
         borderRadius: BorderRadius.circular(12),
@@ -22,7 +22,7 @@ class RuleItem extends StatelessWidget {
                 flex: 2,
                 child: Column(
                   children: [
-                    Text("Shlagbaumli temir yo'l kesishmasi")
+                    Text("Shlagbaumli temir yo'l kesishmasi",style: TextStyle(color: Colors.white,fontSize: 20),)
                   ],
                 ),
               )
