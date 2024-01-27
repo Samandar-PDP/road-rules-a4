@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddPage extends StatefulWidget {
@@ -14,7 +15,7 @@ class AddPage extends StatefulWidget {
 class _AddPageState extends State<AddPage> {
   final _name = TextEditingController();
   final _desc = TextEditingController();
-  String _selectedType = "";
+  SignTypes _selectedType = SignTypes.warning;
 
   final _picker = ImagePicker();
   XFile? _xFile;
@@ -24,26 +25,81 @@ class _AddPageState extends State<AddPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add New Rule"),
-      ),
-      body: ListView(
-        children: [
-          const SizedBox(height: 20),
-          _imageSection(),
-          TextField(
-            controller: _name,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12)
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12)
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12)
-              )
-            ),
-          )
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.checkmark))
         ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            const SizedBox(height: 20),
+            _imageSection(),
+            const Gap(20),
+            TextField(
+              controller: _name,
+              decoration: InputDecoration(
+                hintText: "Sign name",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12)
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12)
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12)
+                )
+              ),
+            ),
+            const Gap(20),
+            TextField(
+              controller: _desc,
+              decoration: InputDecoration(
+                hintText: "Description",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12)
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12)
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12)
+                  )
+              ),
+            ),
+            const Gap(20),
+            DropdownButtonHideUnderline(
+                child: DropdownButtonFormField<SignTypes>(
+                    borderRadius: BorderRadius.circular(12),
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              color: Colors.indigo, width: 2),
+                          borderRadius: BorderRadius.circular(12)),
+                      hintText: 'Sign type',
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              color: Colors.black12, width: 2),
+                          borderRadius: BorderRadius.circular(12)),
+                    ),
+                    style: const TextStyle(
+                        fontSize: 14, color: Colors.black87),
+                    value: _selectedType,
+                    items: SignTypes.values
+                        .map((e) => DropdownMenuItem(
+                        value: e, child: Text(e.name)))
+                        .toList(),
+                    onChanged: (i) {
+                      setState(() {
+                        _selectedType = i!;
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.keyboard_arrow_down_outlined,
+                      color: Color(0xff64748B),
+                    ))),
+          ],
+        ),
       ),
     );
   }
@@ -84,4 +140,8 @@ class _AddPageState extends State<AddPage> {
 
     });
   }
+}
+
+enum SignTypes {
+  warning, grant, ban, command
 }
