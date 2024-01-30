@@ -13,7 +13,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _index = 0;
-  final _pages = [HomePage()];
+  final _pages = [const HomePage()];
 
   @override
   Widget build(BuildContext context) {

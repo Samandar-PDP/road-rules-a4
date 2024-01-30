@@ -4,6 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:road_rules/db/sql_helper.dart';
+import 'package:road_rules/model/sign.dart';
+import 'package:road_rules/page/main_page.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({super.key});
@@ -20,13 +23,25 @@ class _AddPageState extends State<AddPage> {
   final _picker = ImagePicker();
   XFile? _xFile;
 
+  void _saveSign() {
+     if(_xFile != null && _name.text.isNotEmpty && _desc.text.isNotEmpty) {
+       SqlHelper.saveSign(Sign(null,_name.text, _desc.text, _selectedType.name,_xFile?.path))
+           .then((value) {
+             ScaffoldMessenger.of(context)
+                 .showSnackBar(const SnackBar(content: Text("Saved")));
+             Navigator.of(context)
+             .pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => const MainPage()), (route) => false);
+       });
+     }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add New Rule"),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.checkmark))
+          IconButton(onPressed: _saveSign, icon: const Icon(CupertinoIcons.checkmark))
         ],
       ),
       body: Padding(
@@ -126,8 +141,14 @@ class _AddPageState extends State<AddPage> {
   _showBottom() {
     showCupertinoModalPopup(context: context, builder: (dialogContext) => CupertinoActionSheet(
       actions: [
-        CupertinoActionSheetAction(onPressed: () => _pickImage(ImageSource.gallery), child: const Text("Gallery")),
-        CupertinoActionSheetAction(onPressed: () => _pickImage(ImageSource.camera), child: const Text("Camera")),
+        CupertinoActionSheetAction(onPressed: () {
+          Navigator.of(context).pop();
+          _pickImage(ImageSource.gallery);
+        }, child: const Text("Gallery")),
+        CupertinoActionSheetAction(onPressed: () {
+          Navigator.of(context).pop();
+          _pickImage(ImageSource.camera);
+        }, child: const Text("Camera")),
         CupertinoActionSheetAction(onPressed: () => Navigator.of(context).pop(), isDestructiveAction: true,
             child: const Text("Cancel")),
       ],

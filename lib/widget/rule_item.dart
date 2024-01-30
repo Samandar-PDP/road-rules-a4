@@ -1,13 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:road_rules/model/sign.dart';
 
 class RuleItem extends StatelessWidget {
-  const RuleItem({super.key, required this.onClick});
+  const RuleItem({super.key, required this.onClick, required this.sign});
   final void Function() onClick;
+  final Sign? sign;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.blueGrey.shade600,
+      color: Colors.blueGrey.shade100,
       child: InkWell(
         onTap: onClick,
         borderRadius: BorderRadius.circular(12),
@@ -16,13 +20,13 @@ class RuleItem extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: Image.network("https://www.researchgate.net/publication/353422038/figure/fig2/AS:1048906112700416@1627090113328/Image-7-4-3-2-5-9-3-11-45-3-0-2-4-0-1-7.ppm"),
+                child: ClipRRect(borderRadius: BorderRadius.circular(12),child: Image.file(File(sign?.image ?? ""))),
               ),
               Expanded(
                 flex: 2,
                 child: Column(
                   children: [
-                    Text("Shlagbaumli temir yo'l kesishmasi",style: TextStyle(color: Colors.white,fontSize: 20),)
+                    Text("${sign?.name}",style: const TextStyle(color: Colors.black,fontSize: 20),)
                   ],
                 ),
               )
